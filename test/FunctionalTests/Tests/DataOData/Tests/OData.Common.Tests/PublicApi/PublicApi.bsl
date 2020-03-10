@@ -7503,6 +7503,7 @@ public enum Microsoft.OData.Client.SaveChangesOptions : int {
 	None = 0
 	PostOnlySetProperties = 8
 	ReplaceOnUpdate = 4
+	UseRelativeUri = 32
 }
 
 public enum Microsoft.OData.Client.TrackingMode : int {
@@ -7738,6 +7739,7 @@ public class Microsoft.OData.Client.DataServiceContext {
 	public System.IAsyncResult BeginExecute (System.Uri requestUri, System.AsyncCallback callback, object state, string httpMethod, Microsoft.OData.Client.OperationParameter[] operationParameters)
 	public System.IAsyncResult BeginExecute (System.Uri requestUri, System.AsyncCallback callback, object state, string httpMethod, bool singleResult, Microsoft.OData.Client.OperationParameter[] operationParameters)
 	public System.IAsyncResult BeginExecuteBatch (System.AsyncCallback callback, object state, Microsoft.OData.Client.DataServiceRequest[] queries)
+	public System.IAsyncResult BeginExecuteBatch (System.AsyncCallback callback, object state, Microsoft.OData.Client.SaveChangesOptions options, Microsoft.OData.Client.DataServiceRequest[] queries)
 	public System.IAsyncResult BeginGetReadStream (object entity, Microsoft.OData.Client.DataServiceRequestArgs args, System.AsyncCallback callback, object state)
 	public System.IAsyncResult BeginGetReadStream (object entity, string name, Microsoft.OData.Client.DataServiceRequestArgs args, System.AsyncCallback callback, object state)
 	public System.IAsyncResult BeginLoadProperty (object entity, string propertyName, System.AsyncCallback callback, object state)
@@ -7775,7 +7777,9 @@ public class Microsoft.OData.Client.DataServiceContext {
 	public Task`1 ExecuteAsync (System.Uri requestUri, string httpMethod, Microsoft.OData.Client.OperationParameter[] operationParameters)
 	public Task`1 ExecuteAsync (System.Uri requestUri, string httpMethod, bool singleResult, Microsoft.OData.Client.OperationParameter[] operationParameters)
 	public Microsoft.OData.Client.DataServiceResponse ExecuteBatch (Microsoft.OData.Client.DataServiceRequest[] queries)
+	public Microsoft.OData.Client.DataServiceResponse ExecuteBatch (Microsoft.OData.Client.SaveChangesOptions options, Microsoft.OData.Client.DataServiceRequest[] queries)
 	public System.Threading.Tasks.Task`1[[Microsoft.OData.Client.DataServiceResponse]] ExecuteBatchAsync (Microsoft.OData.Client.DataServiceRequest[] queries)
+	public System.Threading.Tasks.Task`1[[Microsoft.OData.Client.DataServiceResponse]] ExecuteBatchAsync (Microsoft.OData.Client.SaveChangesOptions options, Microsoft.OData.Client.DataServiceRequest[] queries)
 	internal virtual Microsoft.OData.Edm.Vocabularies.IEdmVocabularyAnnotatable GetEdmOperationOrOperationImport (System.Reflection.MethodInfo methodInfo)
 	public Microsoft.OData.Client.EntityDescriptor GetEntityDescriptor (object entity)
 	internal virtual Microsoft.OData.Client.ODataResourceMetadataBuilder GetEntityMetadataBuilder (string entitySetName, Microsoft.OData.Edm.Vocabularies.IEdmStructuredValue entityInstance)
@@ -7844,7 +7848,18 @@ public class Microsoft.OData.Client.DataServiceQuery`1 : Microsoft.OData.Client.
 	public virtual IEnumerator`1 GetEnumerator ()
 	public string GetKeyPath (string keyString)
 	public string GetPath (string nextSegment)
+	public Microsoft.OData.Client.DataServiceQuery`1 IncludeCount ()
+	public Microsoft.OData.Client.DataServiceQuery`1 IncludeCount (bool countQuery)
+	[
+	ObsoleteAttribute(),
+	]
 	public Microsoft.OData.Client.DataServiceQuery`1 IncludeTotalCount ()
+
+	[
+	ObsoleteAttribute(),
+	]
+	public Microsoft.OData.Client.DataServiceQuery`1 IncludeTotalCount (bool countQuery)
+
 	internal virtual Microsoft.OData.Client.QueryComponents QueryComponents (Microsoft.OData.Client.ClientEdmModel model)
 	System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator ()
 	public virtual string ToString ()
@@ -7962,7 +7977,11 @@ public class Microsoft.OData.Client.MessageWriterSettingsArgs {
 }
 
 public class Microsoft.OData.Client.QueryOperationResponse : Microsoft.OData.Client.OperationResponse, IEnumerable {
+	long Count  { public virtual get; }
 	Microsoft.OData.Client.DataServiceRequest Query  { public get; }
+	[
+	ObsoleteAttribute(),
+	]
 	long TotalCount  { public virtual get; }
 
 	public Microsoft.OData.Client.DataServiceQueryContinuation GetContinuation ()
@@ -8285,6 +8304,10 @@ public sealed class Microsoft.OData.Client.OriginalNameAttribute : System.Attrib
 }
 
 public sealed class Microsoft.OData.Client.QueryOperationResponse`1 : Microsoft.OData.Client.QueryOperationResponse, IEnumerable`1, IEnumerable {
+	long Count  { public virtual get; }
+	[
+	ObsoleteAttribute(),
+	]
 	long TotalCount  { public virtual get; }
 
 	public DataServiceQueryContinuation`1 GetContinuation ()
