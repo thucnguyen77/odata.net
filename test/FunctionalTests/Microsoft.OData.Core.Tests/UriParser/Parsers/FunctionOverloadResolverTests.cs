@@ -54,7 +54,7 @@ namespace Microsoft.OData.Tests.UriParser.Parsers
         }
 
         [Fact]
-        public void OperationOverloadsWithSameNameWithoutBindingTypeS()
+        public void OperationOverloadsWithSameNameWithoutBindingType()
         {
             var model = ModelBuildingHelpers.GetModelWithOperationOverloadsWithSameName();
             var parameters = new string[] {"p1", "p2"};
