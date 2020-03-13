@@ -134,8 +134,8 @@ namespace Microsoft.OData.UriParser
         /// <returns>True if the token was bound successfully, or false otherwise.</returns>
         internal static bool TryBindAsOperation(PathSegmentToken pathToken, IEdmModel model, IEdmStructuredType entityType, out ODataPathSegment segment)
         {
-            Debug.Assert(pathToken != null, "pathToken != null");
-            Debug.Assert(entityType != null, "bindingType != null");
+            ExceptionUtils.CheckArgumentNotNull(pathToken, "pathToken");
+            ExceptionUtils.CheckArgumentNotNull(entityType, "entityType");
 
             IEnumerable<IEdmOperation> possibleFunctions = Enumerable.Empty<IEdmOperation>();
             IList<string> parameterNames = new List<string>();
@@ -178,7 +178,7 @@ namespace Microsoft.OData.UriParser
             }
 
             // Only filter if there is more than one and its needed.
-            if (possibleFunctions.Count() > 1 && entityType != null)
+            if (possibleFunctions.Count() > 1)
             {
                 possibleFunctions = possibleFunctions.FilterBoundOperationsWithSameTypeHierarchyToTypeClosestToBindingType(entityType);
             }
