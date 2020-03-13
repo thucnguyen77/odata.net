@@ -199,8 +199,8 @@ namespace Microsoft.OData.Tests.UriParser
             model.AddElement(vegetableType);
             model.AddElement(action1);
             model.AddElement(action2);
-            return model;
 
+            return model;
         }
 
         public static IEdmModel GetModelWithMixedActionsAndFunctionsWithSameName()
