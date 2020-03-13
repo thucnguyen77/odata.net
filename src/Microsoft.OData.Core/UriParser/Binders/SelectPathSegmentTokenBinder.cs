@@ -178,7 +178,7 @@ namespace Microsoft.OData.UriParser
             }
 
             // Only filter if there is more than one and its needed.
-            if (possibleFunctions.Count() > 1)
+            if (possibleFunctions.Count() > 1 && entityType != null)
             {
                 possibleFunctions = possibleFunctions.FilterBoundOperationsWithSameTypeHierarchyToTypeClosestToBindingType(entityType);
             }

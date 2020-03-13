@@ -176,6 +176,33 @@ namespace Microsoft.OData.Tests.UriParser
             return model;
         }
 
+        public static IEdmModel GetModelWithOperationOverloadsWithSameName()
+        {
+            EdmEntityType vegetableType = new EdmEntityType("Test", "Vegetable", null, true, false);
+            IEdmStructuralProperty id = vegetableType.AddStructuralProperty("ID", EdmCoreModel.Instance.GetInt32(false));
+            vegetableType.AddKeys(id);
+            EdmCollectionTypeReference collectionTypeReference = new EdmCollectionTypeReference(new EdmCollectionType(new EdmEntityTypeReference(vegetableType, false)));
+
+            EdmEntityContainer container = new EdmEntityContainer("Test", "Container");
+            var set = container.AddEntitySet("Vegetables", vegetableType);
+
+            var action1 = new EdmFunction("Test", "Function", new EdmEntityTypeReference(vegetableType, true), false /*isBound*/, null /*entitySetPath*/, false);
+            action1.AddParameter("p1", collectionTypeReference);
+            action1.AddParameter("p2", EdmCoreModel.Instance.GetInt32(false));
+
+            var action2 = new EdmFunction("Test", "Function", new EdmEntityTypeReference(vegetableType, true), false /*isBound*/, null /*entitySetPath*/, false);
+            action2.AddParameter("p1", new EdmEntityTypeReference(vegetableType, true));
+            action2.AddParameter("p2", EdmCoreModel.Instance.GetInt32(false));
+
+            EdmModel model = new EdmModel();
+            model.AddElement(container);
+            model.AddElement(vegetableType);
+            model.AddElement(action1);
+            model.AddElement(action2);
+            return model;
+
+        }
+
         public static IEdmModel GetModelWithMixedActionsAndFunctionsWithSameName()
         {
             EdmEntityType vegetableType = new EdmEntityType("Test", "Vegetable"); 
